@@ -28,7 +28,7 @@ async function requireUser(req, res, next) {
     if (!token) return res.status(401).json({ error: "Missing Bearer token" });
 
     const { data, error } = await sb.auth.getUser(token);
-    if (error || !data ? .user) {
+    if (error || !data ?.user) {
         return res.status(401).json({ error: "Invalid token" });
     }
 
@@ -66,9 +66,9 @@ app.post("/notes", requireUser, async(req, res) => {
         id,
         owner_id: req.user.id,
         title,
-        content: content ? ? "",
-        color_value: color_value ? ? 0,
-        updated_at: updated_at ? ? new Date().toISOString(),
+        content: content ?? "",
+        color_value: color_value ?? 0,
+        updated_at: updated_at ?? new Date().toISOString(),
     });
 
     if (error) return res.status(400).json({ error: error.message });
@@ -84,7 +84,7 @@ app.get("/notes", requireUser, async(req, res) => {
         .order("updated_at", { ascending: false });
 
     if (error) return res.status(400).json({ error: error.message });
-    res.json({ notes: data ? ? [] });
+    res.json({ notes: data ?? [] });
 });
 
 // 4) pullSharedNotesWithPerms
@@ -95,7 +95,7 @@ app.get("/shared", requireUser, async(req, res) => {
         .eq("shared_with", req.user.id);
 
     if (error) return res.status(400).json({ error: error.message });
-    res.json({ items: data ? ? [] });
+    res.json({ items: data ?? [] });
 });
 
 // 5) shareNoteByToken
@@ -110,7 +110,7 @@ app.post("/share", requireUser, async(req, res) => {
     });
 
     if (rpcErr) return res.status(400).json({ error: rpcErr.message });
-    if (!prof ? .length) return res.status(404).json({ error: "Token no encontrado" });
+    if (!prof ?.length) return res.status(404).json({ error: "Token no encontrado" });
 
     const targetId = prof[0].id;
     if (targetId === req.user.id) {
