@@ -171,5 +171,7 @@ app.delete("/notes/:id", requireUser, async(req, res) => {
     res.json({ ok: true });
 });
 
-const port = process.env.PORT || 3000;
-app.listen(port, "0.0.0.0", () => console.log("API up on port", port));
+const port = Number(process.env.PORT || 8080);
+app.listen(port, "0.0.0.0", () => {
+  console.log("API up on port", port);
+});
